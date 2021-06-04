@@ -14,15 +14,14 @@ const ThoughtSchema = new Schema(
             type: String,
             required: 'You must put something here!',
         },
-        reactions: {
-            // come back to this
-        },
+       
         createdAt: {
             type: Date,
             default: Date.now,
             get: createdAtValue => dateFormat(createdAtValue)
 
-        }
+        },
+        reactions: [reactionSchema]
 
     },
     {

@@ -1,9 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-const { match } = require('node:assert');
-// const {
-//     isEmail,
-//   } = require('validator');
 
 const UserSchema = new Schema(
     {
@@ -15,18 +11,27 @@ const UserSchema = new Schema(
         },
         email: {
             type: String,
-            unique: true,
-            required: 'You must put something here!',
             validate: {
-                validator: match // come back to this
+                validator: function (v) {
+                    return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v);
+                },
+                message: props => `${props.value} is not a valid email!`
+            },
+            required: "You must provide a valid email",
+            unique: true
+        },
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Thought"
             }
-        },
-        thoughts: {
-            // not sure for this one
-        },
-        friends: {
-            // not sure for this one
-        }
+        ],
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
+        ]
     }
 );
 
