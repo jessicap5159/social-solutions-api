@@ -1,6 +1,10 @@
 const { User } = require('../models');
 const { db } = require('../models/User');
 
+
+// /api/users
+
+
 const userController = {
     // get all users
     getAllUsers(req, res) {
@@ -14,15 +18,21 @@ const userController = {
    // get one user by id
   getUserById({ params }, res) {
     User.findOne({ _id: params.id })
-    .populate({
-        path: 'thoughts',
-        select: '-__v'
-    })
+    .populate([
+        {
+            path: "friends",
+            select: "-__v",
+        },
+        {
+            path: "thoughts",
+            select: "-__v",
+        }
+    ])
     .select('-__v')
       .then(dbUserData => {
         // If no user is found, send 404
         if (!dbUserData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
+          res.status(404).json({ message: 'No user found with this id!' });
           return;
         }
         res.json(dbUserData);
@@ -67,7 +77,17 @@ deleteUser({ params }, res) {
         res.json(dbUserData);
     })
     .catch(err => res.status(400).json(err));
+},
+// /api/users/:userId/friends/:friendId
+addNewFriend({}) {
+    User.findOneAndUpdate({
+        new: true
+       // { $addToSet: { <field1>: <value1>, ... } }
+
+
+    })
 }
 
 }
 
+module.exports = userController;
