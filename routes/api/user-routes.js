@@ -11,19 +11,24 @@ const {
 
 // /api/users
 
-// Set up GET all, GET single user, POST new user, PUT, and DELETE
+// Set up GET all and POST
 router
-.route('/users')
+.route('/')
 .get(getAllUsers)
-.get(getUserById)
 .post(createUser)
+
+// GET by ID, PUT, DELETE
+
+router
+.route('/:userId')
+.get(getUserById)
 .put(updateUser)
 .delete(deleteUser);
 
 // /api/users/:userId/friends/:friendId
 
 router
-.route('/users/:userId/friends/:friendId')
+.route('/:userId/friends/:friendId')
 .post(addNewFriend)
 .delete(deleteFriend);
 
