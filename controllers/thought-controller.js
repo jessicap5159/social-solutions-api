@@ -107,23 +107,7 @@ addReaction({ params, body }, res) {
 },
 
 // DELETE to pull and remove a reaction by the reaction's reactionId value
-// removeReaction(req, res) {
-//     Thought.findOneAndUpdate(
-//       { _id: req.params.thoughtId },
-//       { $pull: { reactions: { reactionId: req.params.reactionId } } },
-//       { runValidators: true, new: true }
-//     )
-//       .then((dbUserData) => {
-//         if (!dbUserData) {
-//           return res.status(404).json({ message: 'No thought with this id!' });
-//         }
-//         res.json(dbUserData);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(500).json(err);
-//       });
-//   }
+
 removeReaction({ params }, res) {
     console.log(params);
     Thought.findOneAndUpdate(
